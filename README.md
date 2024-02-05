@@ -1427,6 +1427,27 @@ return (
 
 This way, you can overwrite the map with a new one for a specific part of your app. Note that this provider is optional and a default map will be used if you don't provide one.
 
+#### `EventSourceMode`
+
+By default, `useEventSource` returns the latest event. It can also be configured to return a list of all events received to date, by specifying `mode: "list"` on the `EventSourceOptions`.
+
+```tsx
+import { useEventSource } from "remix-utils/sse/react";
+
+function MessageList() {
+	// Here `/sse/updates` is the resource route returning an eventStream response
+	let messages = useEventSource("/sse/updates", { mode: "list" });
+
+	if (!messages) return null;
+
+	return (
+		<ul>
+			{messages.map((message, i) => <li key={`message_${i}`}>{message}</li>)}
+		</ul>
+	);
+}
+```
+
 ### Rolling Cookies
 
 > **Note**
